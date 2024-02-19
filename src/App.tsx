@@ -1,35 +1,55 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import ReviewList from "./components/ReviewList";
+import ReviewFilter from "./components/ReviewFilter";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [reviews, setReviews] = useState([
+    {
+      id: 1,
+      name: "Dok36",
+      description: "Fijne koffie!",
+      category: "Coffee",
+    },
+    {
+      id: 2,
+      name: "Maona",
+      description: "Lekkere koffie bonen en goed terras.",
+      category: "Coffee",
+    },
+    {
+      id: 3,
+      name: "Ruba",
+      description: "Healthy takeaway.",
+      category: "Food",
+    },
+    {
+      id: 4,
+      name: "Albert Heijn Hessenplein",
+      description: "Op een na beste Albert Heijn in de buurt.",
+      category: "Other",
+    },
+  ]);
+
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  const visibleReviews = selectedCategory
+    ? reviews.filter((review) => review.category === selectedCategory)
+    : reviews;
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="mb-3">
+        <ReviewFilter
+          onSelectCategory={(category) => setSelectedCategory(category)}
+        />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <ReviewList
+        reviews={visibleReviews}
+        onDelete={(id) => setReviews(reviews.filter((r) => r.id !== id))}
+      />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
