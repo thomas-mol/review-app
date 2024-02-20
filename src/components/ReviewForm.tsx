@@ -8,6 +8,7 @@ const schema = z.object({
     .string()
     .min(3, { message: "Name should be at least 3 characters long." })
     .max(20),
+  score: z.coerce.number().min(1).max(10),
   description: z
     .string()
     .max(50, { message: "Description can not be longer than 50 characters." }),
@@ -37,38 +38,40 @@ const ReviewForm = ({ onSubmit }: Props) => {
         reset();
       })}
     >
-      <div className="mb-3">
-        <label htmlFor="name" className="form-label">
-          Name
-        </label>
+      <div className="form-floating mb-4">
         <input
           {...register("name")}
           id="name"
           type="text"
-          className="form-control"
+          className={errors.name ? "form-control is-invalid" : "form-control"}
+          placeholder="name"
         />
+        <label htmlFor="name">Name</label>
         {errors.name && <p className="text-danger">{errors.name.message}</p>}
       </div>
-      <div className="mb-3">
-        <label htmlFor="description" className="form-label">
-          Description
-        </label>
+      <div className="mb-4">
+        <label htmlFor="score">Score</label>
         <input
-          {...register("description")}
-          id="description"
-          type="text"
-          className="form-control"
+          {...register("score")}
+          id="score"
+          type="number"
+          min={1}
+          max={10}
+          step={0.5}
+          className={errors.score ? "form-control is-invalid" : "form-control"}
         />
-        {errors.description && (
-          <p className="text-danger">{errors.description.message}</p>
-        )}
+        {errors.score && <p className="text-danger">{errors.score.message}</p>}
       </div>
-      <div className="mb-3">
+      <div className="mb-4">
         <label htmlFor="category" className="form-label">
           Category
         </label>
-        <select {...register("category")} id="category" className="form-select">
-          <option value=""></option>
+        <select
+          {...register("category")}
+          id="category"
+          className={errors.category ? "form-select is-invalid" : "form-select"}
+        >
+          <option value="">-- Choose a category --</option>
           {categories.map((category) => (
             <option key={category} value={category}>
               {category}
@@ -79,6 +82,23 @@ const ReviewForm = ({ onSubmit }: Props) => {
           <p className="text-danger">{errors.category.message}</p>
         )}
       </div>
+      <div className="mb-4">
+        <label htmlFor="description" className="form-label">
+          Description
+        </label>
+        <textarea
+          {...register("description")}
+          id="description"
+          rows={4}
+          className={
+            errors.description ? "form-control is-invalid" : "form-control"
+          }
+        />
+        {errors.description && (
+          <p className="text-danger">{errors.description.message}</p>
+        )}
+      </div>
+
       <button className="btn btn-primary" type="submit">
         Submit
       </button>

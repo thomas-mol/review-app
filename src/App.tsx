@@ -4,8 +4,12 @@ import ReviewComponent from "./components/ReviewComponent";
 function App() {
   return (
     <>
-      <h2 className="mb-5">Review App</h2>
-      <ReviewComponent />
+      <div className="container-fluid mb-4">
+        <h1 className="display-4">Review App</h1>
+      </div>
+      <div className="container-fluid">
+        <ReviewComponent />
+      </div>
     </>
   );
 }
