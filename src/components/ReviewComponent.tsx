@@ -43,28 +43,20 @@ const ReviewComponent = () => {
 
   return (
     <>
-      <div className="row row-cols-1 row-cols-xl-2 g-4">
-        <div className="col mb-4">
-          <h5 className="mb-4">Add a review</h5>
-          <ReviewForm
-            onSubmit={(review) =>
-              setReviews([...reviews, { ...review, id: reviews.length + 1 }])
-            }
-          />
-        </div>
-        <div className="col mb-4">
-          <h5 className="mb-4">Reviews</h5>
-          <div className="mb-4">
-            <ReviewFilter
-              onSelectCategory={(category) => setSelectedCategory(category)}
-            />
-          </div>
-          <ReviewList
-            reviews={visibleReviews}
-            onDelete={(id) => setReviews(reviews.filter((r) => r.id !== id))}
-          />
-        </div>
+      <div className="d-flex gap-2 mb-4">
+        <ReviewFilter
+          onSelectCategory={(category) => setSelectedCategory(category)}
+        />
+        <ReviewForm
+          onSubmit={(review) =>
+            setReviews([...reviews, { ...review, id: reviews.length + 1 }])
+          }
+        />
       </div>
+      <ReviewList
+        reviews={visibleReviews}
+        onDelete={(id) => setReviews(reviews.filter((r) => r.id !== id))}
+      />
     </>
   );
 };
